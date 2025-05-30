@@ -1,9 +1,11 @@
 #import "AppDelegate.h"
 #import "CatHolic-Swift.h"
+#import <CoreServices/CoreServices.h>
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, strong) NSArray<NSImage *> *catFrames;
+@property (nonatomic, strong) NSArray<NSImage *> *ssuaFrames;
 @property (nonatomic, assign) NSInteger currentFrame;
 @property (nonatomic, strong) NSTimer *animationTimer;
 @end
@@ -13,6 +15,7 @@
 #pragma mark - Lifecycle
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self loadSavedCharacterType];
     [self setupStatusItem];
     [self setupCatFrames];
     [self startAnimation];
@@ -20,6 +23,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
+    
+    // 첫 실행 시 자동 시작 설정
+    [self setupAutoLaunchOnFirstRun];
 }
 
 - (void)dealloc {
@@ -56,6 +62,45 @@
     
     [menu addItem:[NSMenuItem separatorItem]];
     
+    // 캐릭터 선택 서브메뉴
+    NSMenuItem *characterMenuItem = [[NSMenuItem alloc] initWithTitle:@"Choose Theme"
+                                                              action:nil
+                                                       keyEquivalent:@""];
+    NSMenu *characterSubmenu = [[NSMenu alloc] init];
+    
+    // POPCAT 메뉴 아이템
+    NSMenuItem *catItem = [[NSMenuItem alloc] initWithTitle:@"Pop Cat"
+                                                     action:@selector(selectCharacter:)
+                                              keyEquivalent:@""];
+    [catItem setTarget:self];
+    [catItem setTag:CharacterTypeCat];
+    [catItem setState:(self.currentCharacterType == CharacterTypeCat) ? NSControlStateValueOn : NSControlStateValueOff];
+    [characterSubmenu addItem:catItem];
+    
+    // 슝슝이 메뉴 아이템
+    NSMenuItem *ssuaItem = [[NSMenuItem alloc] initWithTitle:@"Shxxng"
+                                                       action:@selector(selectCharacter:)
+                                                keyEquivalent:@""];
+    [ssuaItem setTarget:self];
+    [ssuaItem setTag:CharacterTypeSsua];
+    [ssuaItem setState:(self.currentCharacterType == CharacterTypeSsua) ? NSControlStateValueOn : NSControlStateValueOff];
+    [characterSubmenu addItem:ssuaItem];
+    
+    [characterMenuItem setSubmenu:characterSubmenu];
+    [menu addItem:characterMenuItem];
+    
+    [menu addItem:[NSMenuItem separatorItem]];
+    
+    // 자동 시작 토글
+    NSMenuItem *autoLaunchItem = [[NSMenuItem alloc] initWithTitle:@"Start at Login"
+                                                            action:@selector(toggleAutoLaunch:)
+                                                     keyEquivalent:@""];
+    [autoLaunchItem setTarget:self];
+    [autoLaunchItem setState:[self isAutoLaunchEnabled] ? NSControlStateValueOn : NSControlStateValueOff];
+    [menu addItem:autoLaunchItem];
+    
+    [menu addItem:[NSMenuItem separatorItem]];
+    
     // 종료 메뉴
     NSMenuItem *quitItem = [[NSMenuItem alloc] initWithTitle:@"Exit"
                                                       action:@selector(quitApplication:)
@@ -67,18 +112,180 @@
 }
 
 - (void)setupCatFrames {
-    NSImage *frame0 = [NSImage imageNamed:@"cat_page0"];
-    NSImage *frame1 = [NSImage imageNamed:@"cat_page1"];
+    // POPCAT 프레임 설정
+    NSImage *catFrame0 = [NSImage imageNamed:@"cat_page0"];
+    NSImage *catFrame1 = [NSImage imageNamed:@"cat_page1"];
+    // SSUA 프레임 설정
+    NSImage *ssuaFrame0 = [NSImage imageNamed:@"ssua_page0"];
+    NSImage *ssuaFrame1 = [NSImage imageNamed:@"ssua_page1"];
+    NSImage *ssuaFrame2 = [NSImage imageNamed:@"ssua_page2"];
     
-    if (!frame0 || !frame1) {
+    if (!catFrame0 || !catFrame1) {
         NSLog(@"Warning: Cat animation images not found");
+        self.catFrames = @[];
+    } else {
+        self.catFrames = @[catFrame0, catFrame1];
+        NSLog(@"Cat frames loaded successfully");
+    }
+    
+    if (!ssuaFrame0 || !ssuaFrame1 || !ssuaFrame2) {
+        NSLog(@"Warning: ssua animation images not found");
+        self.ssuaFrames = @[];
+    } else {
+        self.ssuaFrames = @[ssuaFrame0, ssuaFrame1, ssuaFrame2];
+        NSLog(@"SSUA frames loaded successfully");
+    }
+    
+    self.currentFrame = 0;
+    [self updateStatusItemImage];
+}
+
+#pragma mark - Character Selection
+- (void)selectCharacter:(NSMenuItem *)sender {
+    CharacterType selectedType = (CharacterType)sender.tag;
+    
+    // 기존 선택 해제
+    NSMenu *parentMenu = [sender parentItem].submenu;
+    for (NSMenuItem *item in parentMenu.itemArray) {
+        [item setState:NSControlStateValueOff];
+    }
+    
+    // 새로운 선택 표시
+    [sender setState:NSControlStateValueOn];
+    
+    // 캐릭터 타입 변경
+    self.currentCharacterType = selectedType;
+    self.currentFrame = 0;
+    
+    // 설정 저장
+    [self saveCharacterType];
+    
+    // 즉시 이미지 업데이트
+    [self updateStatusItemImage];
+}
+
+- (void)saveCharacterType {
+    [[NSUserDefaults standardUserDefaults] setInteger:self.currentCharacterType
+                                               forKey:@"selectedCharacterType"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)loadSavedCharacterType {
+    NSInteger savedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"selectedCharacterType"];
+    
+    // 유효한 값인지 확인
+    if (savedType == CharacterTypeCat || savedType == CharacterTypeSsua) {
+        self.currentCharacterType = (CharacterType)savedType;
+    } else {
+        self.currentCharacterType = CharacterTypeCat; // 기본값을 Cat으로 변경
+    }
+}
+
+#pragma mark - Auto Launch Setup
+- (void)setupAutoLaunchOnFirstRun {
+    // 이미 설정했는지 확인
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSetupAutoLaunch"]) {
         return;
     }
     
-    self.catFrames = @[frame0, frame1];
-    self.currentFrame = 0;
+    // 자동 시작 설정
+    [self setAutoLaunch:YES];
     
-    [self updateStatusItemImage];
+    // 설정 완료 표시
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSetupAutoLaunch"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSLog(@"Auto launch setup completed on first run");
+}
+
+- (void)setAutoLaunch:(BOOL)enabled {
+    NSString *appPath = [[NSBundle mainBundle] bundlePath];
+    
+    // Login Items에 추가/제거
+    LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    if (loginItems) {
+        if (enabled) {
+            // 먼저 기존 항목이 있는지 확인하고 제거
+            [self removeFromLoginItems:loginItems withAppPath:appPath];
+            
+            // 새로 추가
+            CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:appPath];
+            LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItems,
+                                                                         kLSSharedFileListItemLast,
+                                                                         NULL, NULL, url, NULL, NULL);
+            if (item) {
+                CFRelease(item);
+                NSLog(@"Added to login items successfully");
+            } else {
+                NSLog(@"Failed to add to login items");
+            }
+        } else {
+            // 제거
+            [self removeFromLoginItems:loginItems withAppPath:appPath];
+        }
+        CFRelease(loginItems);
+    }
+}
+
+- (void)removeFromLoginItems:(LSSharedFileListRef)loginItems withAppPath:(NSString *)appPath {
+    CFArrayRef loginItemsArray = LSSharedFileListCopySnapshot(loginItems, NULL);
+    if (loginItemsArray) {
+        CFIndex count = CFArrayGetCount(loginItemsArray);
+        for (CFIndex i = 0; i < count; i++) {
+            LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(loginItemsArray, i);
+            CFURLRef url = NULL;
+            if (LSSharedFileListItemResolve(item, 0, &url, NULL) == noErr && url) {
+                NSString *itemPath = [(__bridge NSURL *)url path];
+                if ([itemPath isEqualToString:appPath]) {
+                    LSSharedFileListItemRemove(loginItems, item);
+                    NSLog(@"Removed from login items");
+                    CFRelease(url);
+                    break;
+                }
+                CFRelease(url);
+            }
+        }
+        CFRelease(loginItemsArray);
+    }
+}
+
+- (BOOL)isAutoLaunchEnabled {
+    NSString *appPath = [[NSBundle mainBundle] bundlePath];
+    LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    BOOL found = NO;
+    
+    if (loginItems) {
+        CFArrayRef loginItemsArray = LSSharedFileListCopySnapshot(loginItems, NULL);
+        if (loginItemsArray) {
+            CFIndex count = CFArrayGetCount(loginItemsArray);
+            for (CFIndex i = 0; i < count; i++) {
+                LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(loginItemsArray, i);
+                CFURLRef url = NULL;
+                if (LSSharedFileListItemResolve(item, 0, &url, NULL) == noErr && url) {
+                    NSString *itemPath = [(__bridge NSURL *)url path];
+                    if ([itemPath isEqualToString:appPath]) {
+                        found = YES;
+                        CFRelease(url);
+                        break;
+                    }
+                    CFRelease(url);
+                }
+            }
+            CFRelease(loginItemsArray);
+        }
+        CFRelease(loginItems);
+    }
+    
+    return found;
+}
+
+- (void)toggleAutoLaunch:(NSMenuItem *)sender {
+    BOOL isEnabled = [self isAutoLaunchEnabled];
+    [self setAutoLaunch:!isEnabled];
+    [sender setState:(!isEnabled) ? NSControlStateValueOn : NSControlStateValueOff];
+    
+    NSString *message = (!isEnabled) ? @"Auto launch enabled" : @"Auto launch disabled";
+    NSLog(@"%@", message);
 }
 
 #pragma mark - Animation Methods
@@ -105,25 +312,48 @@
 }
 
 - (void)animateFrame {
-    if (!self.catFrames.count) {
+    NSArray<NSImage *> *currentFrames = [self getCurrentFrames];
+    
+    if (!currentFrames.count) {
+        NSLog(@"No frames available for current character type: %ld", (long)self.currentCharacterType);
         return;
     }
     
-    self.currentFrame = (self.currentFrame + 1) % self.catFrames.count;
+    self.currentFrame = (self.currentFrame + 1) % currentFrames.count;
     [self updateStatusItemImage];
     [self scheduleNextAnimation];
 }
 
+- (NSArray<NSImage *> *)getCurrentFrames {
+    switch (self.currentCharacterType) {
+        case CharacterTypeCat:
+            return self.catFrames;
+        case CharacterTypeSsua:
+            return self.ssuaFrames;
+        default:
+            return self.catFrames;
+    }
+}
+
 - (void)updateStatusItemImage {
-    if (!self.statusItem || !self.catFrames.count) {
+    if (!self.statusItem) {
+        NSLog(@"StatusItem is nil");
         return;
     }
     
-    NSImage *currentImage = self.catFrames[self.currentFrame];
+    NSArray<NSImage *> *currentFrames = [self getCurrentFrames];
+    
+    if (!currentFrames.count) {
+        NSLog(@"No current frames available");
+        return;
+    }
+    
+    NSImage *currentImage = currentFrames[self.currentFrame];
     NSImage *resizedImage = [currentImage copy];
-    [resizedImage setSize:NSMakeSize(24, 24)];
+    [resizedImage setSize:NSMakeSize(30, 30)];
     
     [self.statusItem setImage:resizedImage];
+    NSLog(@"Updated status item image for frame %ld", (long)self.currentFrame);
 }
 
 - (void)stopAnimation {
@@ -133,15 +363,35 @@
     }
 }
 
+#pragma mark - Helper Methods
+- (NSString *)getCurrentCharacterName {
+    switch (self.currentCharacterType) {
+        case CharacterTypeCat:
+            return @"Pop Cat";
+        case CharacterTypeSsua:
+            return @"Shxxng";
+        default:
+            return @"Pop Cat";
+    }
+}
+
 #pragma mark - Menu Actions
 - (void)showAbout:(NSMenuItem *)sender {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"CatHolic Info"];
-    [alert setInformativeText:@"This adorable cat app tracks your CPU usage — the busier your CPU, the more the cat chomps like it’s got something tasty!"];
+    [alert setMessageText:@"@CatHolic"];
+    
+    NSString *currentCharacter = [self getCurrentCharacterName];
+    NSString *infoText = [NSString stringWithFormat:@"Current Theme: %@\n\nThis adorable app tracks your CPU usage — the busier your CPU, the more the character moves like it's got something tasty!", currentCharacter];
+    
+    [alert setInformativeText:infoText];
     [alert addButtonWithTitle:@"Confirm"];
     [alert setAlertStyle:NSAlertStyleInformational];
 
-    alert.icon = [NSImage imageNamed:@"cat_page0"];
+    // 현재 캐릭터의 첫 번째 프레임을 아이콘으로 사용
+    NSArray<NSImage *> *currentFrames = [self getCurrentFrames];
+    if (currentFrames.count > 0) {
+        alert.icon = currentFrames[0];
+    }
 
     [alert runModal];
 }

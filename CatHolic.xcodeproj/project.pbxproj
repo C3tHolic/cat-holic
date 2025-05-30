@@ -10,13 +10,16 @@
 		5249905B2DE85598004B1C8E /* cat_page0.png in Resources */ = {isa = PBXBuildFile; fileRef = 524990592DE85598004B1C8E /* cat_page0.png */; };
 		5249905C2DE85598004B1C8E /* cat_page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5249905A2DE85598004B1C8E /* cat_page1.png */; };
 		5249905E2DE85A6D004B1C8E /* CPUMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5249905D2DE85A6D004B1C8E /* CPUMonitor.swift */; };
-		524990632DE86DF2004B1C8E /* cat_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 524990622DE86DF2004B1C8E /* cat_icon.icns */; };
+		52917AA92DE9723D00762F8E /* ssua_page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 52917AA72DE9723D00762F8E /* ssua_page1.png */; };
+		52917AAA2DE9723D00762F8E /* ssua_page2.png in Resources */ = {isa = PBXBuildFile; fileRef = 52917AA82DE9723D00762F8E /* ssua_page2.png */; };
+		52917AAB2DE9723D00762F8E /* ssua_page0.png in Resources */ = {isa = PBXBuildFile; fileRef = 52917AA62DE9723D00762F8E /* ssua_page0.png */; };
+		52917AAC2DE9834D00762F8E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F75A98271709016B00B8F330 /* MainMenu.xib */; };
+		52917AAE2DE9881700762F8E /* cat_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 52917AAD2DE9881700762F8E /* cat_icon.icns */; };
 		F75A98131709016B00B8F330 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F75A98121709016B00B8F330 /* Cocoa.framework */; };
 		F75A981D1709016B00B8F330 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F75A981B1709016B00B8F330 /* InfoPlist.strings */; };
 		F75A981F1709016B00B8F330 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F75A981E1709016B00B8F330 /* main.m */; };
 		F75A98231709016B00B8F330 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F75A98211709016B00B8F330 /* Credits.rtf */; };
 		F75A98261709016B00B8F330 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F75A98251709016B00B8F330 /* AppDelegate.m */; };
-		F75A98291709016B00B8F330 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F75A98271709016B00B8F330 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +27,10 @@
 		5249905A2DE85598004B1C8E /* cat_page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat_page1.png; sourceTree = "<group>"; };
 		5249905D2DE85A6D004B1C8E /* CPUMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUMonitor.swift; sourceTree = "<group>"; };
 		5249905F2DE85A70004B1C8E /* CatHolic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CatHolic-Bridging-Header.h"; sourceTree = "<group>"; };
-		524990622DE86DF2004B1C8E /* cat_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cat_icon.icns; sourceTree = "<group>"; };
+		52917AA62DE9723D00762F8E /* ssua_page0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssua_page0.png; sourceTree = "<group>"; };
+		52917AA72DE9723D00762F8E /* ssua_page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssua_page1.png; sourceTree = "<group>"; };
+		52917AA82DE9723D00762F8E /* ssua_page2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssua_page2.png; sourceTree = "<group>"; };
+		52917AAD2DE9881700762F8E /* cat_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cat_icon.icns; sourceTree = "<group>"; };
 		F75A980F1709016B00B8F330 /* CatHolic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatHolic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75A98121709016B00B8F330 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F75A98151709016B00B8F330 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -97,7 +103,11 @@
 				F75A98271709016B00B8F330 /* MainMenu.xib */,
 				F75A98191709016B00B8F330 /* Supporting Files */,
 				524990592DE85598004B1C8E /* cat_page0.png */,
+				52917AA62DE9723D00762F8E /* ssua_page0.png */,
+				52917AA72DE9723D00762F8E /* ssua_page1.png */,
+				52917AA82DE9723D00762F8E /* ssua_page2.png */,
 				5249905A2DE85598004B1C8E /* cat_page1.png */,
+				52917AAD2DE9881700762F8E /* cat_icon.icns */,
 				5249905F2DE85A70004B1C8E /* CatHolic-Bridging-Header.h */,
 			);
 			path = CatHolic;
@@ -106,7 +116,6 @@
 		F75A98191709016B00B8F330 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				524990622DE86DF2004B1C8E /* cat_icon.icns */,
 				F75A981A1709016B00B8F330 /* CatHolic-Info.plist */,
 				F75A981B1709016B00B8F330 /* InfoPlist.strings */,
 				F75A981E1709016B00B8F330 /* main.m */,
@@ -173,12 +182,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				524990632DE86DF2004B1C8E /* cat_icon.icns in Resources */,
 				F75A981D1709016B00B8F330 /* InfoPlist.strings in Resources */,
 				F75A98231709016B00B8F330 /* Credits.rtf in Resources */,
-				F75A98291709016B00B8F330 /* MainMenu.xib in Resources */,
 				5249905B2DE85598004B1C8E /* cat_page0.png in Resources */,
+				52917AAE2DE9881700762F8E /* cat_icon.icns in Resources */,
+				52917AA92DE9723D00762F8E /* ssua_page1.png in Resources */,
+				52917AAA2DE9723D00762F8E /* ssua_page2.png in Resources */,
+				52917AAB2DE9723D00762F8E /* ssua_page0.png in Resources */,
 				5249905C2DE85598004B1C8E /* cat_page1.png in Resources */,
+				52917AAC2DE9834D00762F8E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +301,7 @@
 		F75A982D1709016B00B8F330 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = cat_icon;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -306,6 +319,7 @@
 		F75A982E1709016B00B8F330 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = cat_icon;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

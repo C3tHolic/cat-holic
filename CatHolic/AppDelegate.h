@@ -1,9 +1,12 @@
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
-    NSStatusItem *statusItem;
-}
+typedef NS_ENUM(NSInteger, CharacterType) {
+    CharacterTypeCat = 0,
+    CharacterTypeSsua = 1
+};
 
-@property (assign) IBOutlet NSWindow *window;
+@interface AppDelegate : NSObject <NSApplicationDelegate>
+
+@property (nonatomic, assign) CharacterType currentCharacterType;
 
 @end
