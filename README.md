@@ -1,8 +1,12 @@
+## CatHolic
+
+![CatHolicIcon](https://github.com/user-attachments/assets/8bc405f2-e072-4ab0-8b01-f7b99a94da8f)
+
 A cute CPU monitoring app for macOS that shows an animated cat in your menu bar. The faster your CPU works, the faster the cat moves.
 
-![CatHolic](https://github.com/user-attachments/assets/8bc405f2-e072-4ab0-8b01-f7b99a94da8f)
-
 ### Features
+
+![CatHolicGif](https://github.com/user-attachments/assets/ff9f8907-2c3a-4e1f-a40f-e1d064aaa622)
 
 - **Visual CPU Monitoring**: Cat animation speed reflects real-time CPU usage
 - **Adorable Interface**: Cute cat companion in your menu bar
