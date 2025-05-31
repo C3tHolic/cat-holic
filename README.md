@@ -4,6 +4,9 @@
 
 A cute CPU monitoring app for macOS that shows an animated cat in your menu bar. The faster your CPU works, the faster the cat moves.
 
+[![Download Latest](https://img.shields.io/github/v/release/nullisdefined/CatHolic?label=Download&style=for-the-badge)](https://github.com/nullisdefined/CatHolic/releases/latest)
+
+---
 
 ## Features
 
@@ -14,24 +17,28 @@ A cute CPU monitoring app for macOS that shows an animated cat in your menu bar.
 - **Lightweight**: Minimal system impact
 - **Simple**: No configuration needed
 
+---
 
 ## Installation
 
-1. Download the latest `.dmg` from [Releases](https://github.com/nullisdefined/CatHolic/releases/tag/v1.0.0)
+1. Download the latest `.dmg` from [Releases](https://github.com/nullisdefined/CatHolic/releases/latest)
 2. Drag `CatHolic.app` to Applications folder
 3. Launch the app
 
+---
 
 ## First Launch
 macOS may show a security warning since the app isn't notarized:
 1. Right-click on `CatHolic.app` and select "Open"
 2. Click "Open" in the dialog
 
+---
 
 ## System Requirements
 
 - macOS 10.15 or later
 
+---
 
 ## Contributors
 
