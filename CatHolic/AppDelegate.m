@@ -393,8 +393,9 @@
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:@"@CatHolic"];
     
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *currentCharacter = [self getCurrentCharacterName];
-    NSString *infoText = [NSString stringWithFormat:@"Current Theme: %@\n\nThis adorable app tracks your CPU usage — the busier your CPU, the more the character moves like it's got something tasty!", currentCharacter];
+    NSString *infoText = [NSString stringWithFormat:@"Current Theme: %@\n\nThis adorable app tracks your CPU usage — the busier your CPU, the more the character moves like it's got something tasty!\n\nV%@", currentCharacter, version];
     
     [alert setInformativeText:infoText];
     [alert addButtonWithTitle:@"Confirm"];
