@@ -4,7 +4,7 @@
 
 A cute CPU monitoring app for macOS that shows an animated cat in your menu bar. The faster your CPU works, the faster the cat moves.
 
-[![Download Latest](https://img.shields.io/github/v/release/nullisdefined/CatHolic?label=Download&style=for-the-badge)](https://github.com/nullisdefined/CatHolic/releases/latest)
+[![Download Latest](https://img.shields.io/github/v/release/C3tHolic/CatHolic?label=download&style=for-the-badge)](https://github.com/C3tHolic/CatHolic/releases/latest)
 
 ---
 
