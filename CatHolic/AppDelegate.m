@@ -6,6 +6,7 @@
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, strong) NSArray<NSImage *> *catFrames;
 @property (nonatomic, strong) NSArray<NSImage *> *ssuaFrames;
+@property (nonatomic, strong) NSArray<NSNumber *> *ssuaFrameSequence;
 @property (nonatomic, assign) NSInteger currentFrame;
 @property (nonatomic, strong) NSTimer *animationTimer;
 @end
@@ -133,6 +134,7 @@
         self.ssuaFrames = @[];
     } else {
         self.ssuaFrames = @[ssuaFrame0, ssuaFrame1, ssuaFrame2];
+        self.ssuaFrameSequence = @[@0, @1, @2, @1, @0];
         NSLog(@"SSUA frames loaded successfully");
     }
     
@@ -301,7 +303,7 @@
     double usage = [CPUMonitor usageValue];
     
     // CPU 사용률에 따른 애니메이션 속도 조정 (0.2초 ~ 2.0초)
-    double interval = MAX(0.05, 1.5 - (usage / 100.0) * 1.45);
+    double interval = MAX(0.05, 0.65 - (usage / 100.0) * 1.6);
     
     __weak typeof(self) weakSelf = self;
     self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:interval
@@ -319,9 +321,14 @@
         return;
     }
     
-    self.currentFrame = (self.currentFrame + 1) % currentFrames.count;
-    [self updateStatusItemImage];
-    [self scheduleNextAnimation];
+    if (self.currentCharacterType == CharacterTypeSsua && self.ssuaFrameSequence.count > 0) {
+           self.currentFrame = (self.currentFrame + 1) % self.ssuaFrameSequence.count;
+       } else {
+           self.currentFrame = (self.currentFrame + 1) % currentFrames.count;
+       }
+
+   [self updateStatusItemImage];
+   [self scheduleNextAnimation];
 }
 
 - (NSArray<NSImage *> *)getCurrentFrames {
@@ -340,18 +347,24 @@
         NSLog(@"StatusItem is nil");
         return;
     }
-    
+
     NSArray<NSImage *> *currentFrames = [self getCurrentFrames];
-    
     if (!currentFrames.count) {
         NSLog(@"No current frames available");
         return;
     }
-    
-    NSImage *currentImage = currentFrames[self.currentFrame];
+
+    NSImage *currentImage;
+    if (self.currentCharacterType == CharacterTypeSsua && self.ssuaFrameSequence.count > 0) {
+        NSInteger frameIndex = [self.ssuaFrameSequence[self.currentFrame] integerValue];
+        currentImage = currentFrames[frameIndex];
+    } else {
+        currentImage = currentFrames[self.currentFrame];
+    }
+
     NSImage *resizedImage = [currentImage copy];
-    [resizedImage setSize:NSMakeSize(30, 30)];
-    
+    [resizedImage setSize:NSMakeSize(27, 27)];
+
     [self.statusItem setImage:resizedImage];
     NSLog(@"Updated status item image for frame %ld", (long)self.currentFrame);
 }
