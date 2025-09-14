@@ -3,16 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5249905B2DE85598004B1C8E /* cat_page0.png in Resources */ = {isa = PBXBuildFile; fileRef = 524990592DE85598004B1C8E /* cat_page0.png */; };
-		5249905C2DE85598004B1C8E /* cat_page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5249905A2DE85598004B1C8E /* cat_page1.png */; };
 		5249905E2DE85A6D004B1C8E /* CPUMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5249905D2DE85A6D004B1C8E /* CPUMonitor.swift */; };
-		52917AA92DE9723D00762F8E /* ssua_page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 52917AA72DE9723D00762F8E /* ssua_page1.png */; };
-		52917AAA2DE9723D00762F8E /* ssua_page2.png in Resources */ = {isa = PBXBuildFile; fileRef = 52917AA82DE9723D00762F8E /* ssua_page2.png */; };
-		52917AAB2DE9723D00762F8E /* ssua_page0.png in Resources */ = {isa = PBXBuildFile; fileRef = 52917AA62DE9723D00762F8E /* ssua_page0.png */; };
 		52917AAC2DE9834D00762F8E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F75A98271709016B00B8F330 /* MainMenu.xib */; };
 		52917AAE2DE9881700762F8E /* cat_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 52917AAD2DE9881700762F8E /* cat_icon.icns */; };
 		F75A98131709016B00B8F330 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F75A98121709016B00B8F330 /* Cocoa.framework */; };
@@ -23,13 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		524990592DE85598004B1C8E /* cat_page0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat_page0.png; sourceTree = "<group>"; };
-		5249905A2DE85598004B1C8E /* cat_page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat_page1.png; sourceTree = "<group>"; };
 		5249905D2DE85A6D004B1C8E /* CPUMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUMonitor.swift; sourceTree = "<group>"; };
 		5249905F2DE85A70004B1C8E /* CatHolic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CatHolic-Bridging-Header.h"; sourceTree = "<group>"; };
-		52917AA62DE9723D00762F8E /* ssua_page0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssua_page0.png; sourceTree = "<group>"; };
-		52917AA72DE9723D00762F8E /* ssua_page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssua_page1.png; sourceTree = "<group>"; };
-		52917AA82DE9723D00762F8E /* ssua_page2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssua_page2.png; sourceTree = "<group>"; };
 		52917AAD2DE9881700762F8E /* cat_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cat_icon.icns; sourceTree = "<group>"; };
 		F75A980F1709016B00B8F330 /* CatHolic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatHolic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75A98121709016B00B8F330 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -45,6 +35,12 @@
 		F75A98251709016B00B8F330 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F75A98281709016B00B8F330 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5295603A2E6ECCDC00F40B33 /* ssua */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ssua; sourceTree = "<group>"; };
+		5295606A2E6ECD0C00F40B33 /* cat */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = cat; sourceTree = "<group>"; };
+		529560942E6ED1B200F40B33 /* dino */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = dino; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F75A980C1709016B00B8F330 /* Frameworks */ = {
@@ -97,16 +93,14 @@
 		F75A98181709016B00B8F330 /* CatHolic */ = {
 			isa = PBXGroup;
 			children = (
+				529560942E6ED1B200F40B33 /* dino */,
+				5295606A2E6ECD0C00F40B33 /* cat */,
+				5295603A2E6ECCDC00F40B33 /* ssua */,
 				5249905D2DE85A6D004B1C8E /* CPUMonitor.swift */,
 				F75A98241709016B00B8F330 /* AppDelegate.h */,
 				F75A98251709016B00B8F330 /* AppDelegate.m */,
 				F75A98271709016B00B8F330 /* MainMenu.xib */,
 				F75A98191709016B00B8F330 /* Supporting Files */,
-				524990592DE85598004B1C8E /* cat_page0.png */,
-				52917AA62DE9723D00762F8E /* ssua_page0.png */,
-				52917AA72DE9723D00762F8E /* ssua_page1.png */,
-				52917AA82DE9723D00762F8E /* ssua_page2.png */,
-				5249905A2DE85598004B1C8E /* cat_page1.png */,
 				52917AAD2DE9881700762F8E /* cat_icon.icns */,
 				5249905F2DE85A70004B1C8E /* CatHolic-Bridging-Header.h */,
 			);
@@ -139,6 +133,11 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5295603A2E6ECCDC00F40B33 /* ssua */,
+				5295606A2E6ECD0C00F40B33 /* cat */,
+				529560942E6ED1B200F40B33 /* dino */,
 			);
 			name = CatHolic;
 			productName = NSStatusItemExample;
@@ -184,12 +183,7 @@
 			files = (
 				F75A981D1709016B00B8F330 /* InfoPlist.strings in Resources */,
 				F75A98231709016B00B8F330 /* Credits.rtf in Resources */,
-				5249905B2DE85598004B1C8E /* cat_page0.png in Resources */,
 				52917AAE2DE9881700762F8E /* cat_icon.icns in Resources */,
-				52917AA92DE9723D00762F8E /* ssua_page1.png in Resources */,
-				52917AAA2DE9723D00762F8E /* ssua_page2.png in Resources */,
-				52917AAB2DE9723D00762F8E /* ssua_page0.png in Resources */,
-				5249905C2DE85598004B1C8E /* cat_page1.png in Resources */,
 				52917AAC2DE9834D00762F8E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

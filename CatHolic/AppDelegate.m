@@ -6,6 +6,7 @@
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, strong) NSArray<NSImage *> *catFrames;
 @property (nonatomic, strong) NSArray<NSImage *> *ssuaFrames;
+@property (nonatomic, strong) NSArray<NSImage *> *dinoFrames;
 @property (nonatomic, strong) NSArray<NSNumber *> *ssuaFrameSequence;
 @property (nonatomic, assign) NSInteger currentFrame;
 @property (nonatomic, strong) NSTimer *animationTimer;
@@ -87,6 +88,17 @@
     [ssuaItem setState:(self.currentCharacterType == CharacterTypeSsua) ? NSControlStateValueOn : NSControlStateValueOff];
     [characterSubmenu addItem:ssuaItem];
     
+    // 세번째 메뉴 아이템
+    /*
+    NSMenuItem *dinoItem = [[NSMenuItem alloc] initWithTitle:@"Dino"
+                                                      action:@selector(selectCharacter:)
+                                               keyEquivalent:@""];
+    [dinoItem setTarget:self];
+    [dinoItem setTag:CharacterTypeDino];
+    [dinoItem setState:(self.currentCharacterType == CharacterTypeDino) ? NSControlStateValueOn : NSControlStateValueOff];
+    [characterSubmenu addItem:dinoItem];
+    */
+    
     [characterMenuItem setSubmenu:characterSubmenu];
     [menu addItem:characterMenuItem];
     
@@ -113,13 +125,26 @@
 }
 
 - (void)setupCatFrames {
-    // POPCAT 프레임 설정
+    // POPCAT 프레임 설정 (cat 폴더에서 로드)
     NSImage *catFrame0 = [NSImage imageNamed:@"cat_page0"];
     NSImage *catFrame1 = [NSImage imageNamed:@"cat_page1"];
-    // SSUA 프레임 설정
+    
+    // SSUA 프레임 설정 (ssua 폴더에서 로드)
     NSImage *ssuaFrame0 = [NSImage imageNamed:@"ssua_page0"];
     NSImage *ssuaFrame1 = [NSImage imageNamed:@"ssua_page1"];
     NSImage *ssuaFrame2 = [NSImage imageNamed:@"ssua_page2"];
+    
+    // 세번째 캐릭터 프레임 설정
+    /*
+    NSMutableArray *dinoFrameArray = [NSMutableArray array];
+    for (int i = 0; i <= 11; i++) {
+        NSString *frameName = [NSString stringWithFormat:@"frame_%03d", i];
+        NSImage *frame = [NSImage imageNamed:frameName];
+        if (frame) {
+            [dinoFrameArray addObject:frame];
+        }
+    }
+    */
     
     if (!catFrame0 || !catFrame1) {
         NSLog(@"Warning: Cat animation images not found");
@@ -137,6 +162,16 @@
         self.ssuaFrameSequence = @[@0, @1, @2, @1, @0];
         NSLog(@"SSUA frames loaded successfully");
     }
+    
+    /*
+    if (dinoFrameArray.count == 0) {
+        NSLog(@"Warning: Dino animation images not found");
+        self.dinoFrames = @[];
+    } else {
+        self.dinoFrames = [dinoFrameArray copy];
+        NSLog(@"Dino frames loaded successfully: %lu frames", (unsigned long)self.dinoFrames.count);
+    }
+    */
     
     self.currentFrame = 0;
     [self updateStatusItemImage];
@@ -176,7 +211,7 @@
     NSInteger savedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"selectedCharacterType"];
     
     // 유효한 값인지 확인
-    if (savedType == CharacterTypeCat || savedType == CharacterTypeSsua) {
+    if (savedType == CharacterTypeCat || savedType == CharacterTypeSsua /* || savedType == CharacterTypeDino */) {
         self.currentCharacterType = (CharacterType)savedType;
     } else {
         self.currentCharacterType = CharacterTypeCat; // 기본값을 Cat으로 변경
@@ -303,7 +338,7 @@
     double usage = [CPUMonitor usageValue];
     
     // CPU 사용률에 따른 애니메이션 속도 조정 (0.2초 ~ 2.0초)
-    double interval = MAX(0.05, 0.65 - (usage / 100.0) * 1.6);
+    double interval = MAX(0.05, 0.85 - (usage / 100.0) * 3.2);
     
     __weak typeof(self) weakSelf = self;
     self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:interval
@@ -337,6 +372,10 @@
             return self.catFrames;
         case CharacterTypeSsua:
             return self.ssuaFrames;
+        /*
+        case CharacterTypeDino:
+            return self.dinoFrames;
+        */
         default:
             return self.catFrames;
     }
@@ -383,6 +422,10 @@
             return @"Pop Cat";
         case CharacterTypeSsua:
             return @"Shxxng";
+        /*
+        case CharacterTypeDino:
+            return @"Dino";
+        */
         default:
             return @"Pop Cat";
     }
